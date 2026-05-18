@@ -55,35 +55,12 @@ Socket programming finds applications in various domains, including web developm
 
 server.py
 ```1. Server Program (server.py)
-import socket
-
-# Create socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Bind socket to IP and port
-host = '127.0.0.1'
-port = 12345
-server_socket.bind((host, port))
-
-# Listen for connections
-server_socket.listen(1)
-print("Server is waiting for connection...")
-
-# Accept client connection
-conn, addr = server_socket.accept()
-print("Connected to:", addr)
-
-# Receive data from client
-data = conn.recv(1024).decode()
-print("Client says:", data)
-
-# Send response to client
-message = "Hello Client, message received!"
-conn.send(message.encode())
-
-# Close connection
-conn.close()
-server_socket.close()
+import socket 
+s=socket.socket()  
+s.connect(('localhost',8000))  
+while True:  
+    print(s.recv(1024).decode()) 
+    s.send("Acknowledgement Recived".encode()) 
 
 ```
 
@@ -91,36 +68,30 @@ client.py
 
 
 ```
-2. Client Program (client.py)
-import socket
-
-# Create socket
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Connect to server
-host = '127.0.0.1'
-port = 12345
-client_socket.connect((host, port))
-
-# Send message to server
-message = "Hello Server!"
-client_socket.send(message.encode())
-
-# Receive response from server
-data = client_socket.recv(1024).decode()
-print("Server says:", data)
-
-# Close socket
-client_socket.close()
+import socket  
+s=socket.socket()  
+s.bind(('localhost',8000))  
+s.listen(5)  
+c,addr=s.accept() 
+while True:  
+    i=input("Enter a data: ")
+    c.send(i.encode())  
+    ack=c.recv(1024).decode()  
+    if ack: 
+        print(ack)  
+        continue  
+    else:  
+        c.close()  
+        break 
 
 ```
 
 output
 
-<img width="761" height="708" alt="Screenshot 2026-05-18 131513" src="https://github.com/user-attachments/assets/fe8ec1fd-6f45-421b-98d0-e518f6673200" />
+<img width="1088" height="355" alt="image" src="https://github.com/user-attachments/assets/a37a6ed4-237e-43e2-a2f8-bcd8a738c241" />
 
 
-<img width="734" height="790" alt="Screenshot 2026-05-18 131542" src="https://github.com/user-attachments/assets/0545e7b8-721b-40eb-974c-8c224965478c" />
+<img width="1103" height="327" alt="image" src="https://github.com/user-attachments/assets/c44964ee-028d-4b31-81be-d60641dad46f" />
 
 
 
